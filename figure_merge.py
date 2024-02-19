@@ -1,12 +1,15 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap, BoundaryNorm
+import matplotlib.cm as cm
 
-data1 = np.load(r'D:\博士工作\统计第二篇_3DMHW_MLD_south\最终位置\热収支\Sf.npz')
+data1 = np.load('./Sf.npz')
 data1.files
 
-data2 = np.load(r'D:\博士工作\统计第二篇_3DMHW_MLD_south\最终位置\热収支\Adv.npz')
+data2 = np.load('./Adv.npz')
 data2.files
 
-data3 = np.load(r'D:\博士工作\统计第二篇_3DMHW_MLD_south\最终位置\热収支\Tt.npz')
+data3 = np.load('./Tt.npz')
 data3.files
 
 Shallow_sf_mean = data1['Shallow_sf_mean'][:]
@@ -68,15 +71,8 @@ adv_mean = np.nanmean(adv, axis = 0)
 Sf_mean = np.nanmean(Sf, axis = 0)
 Res_mean = np.nanmean(Res, axis = 0)
 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap, BoundaryNorm
-import matplotlib.cm as cm
-
-# 创建一个2x3的子图网格
 fig, axarr = plt.subplots(4, 6, figsize=(20, 15), dpi=300)
 
-# 生成六个随机数据数组
 data1 = Tt_mean[:240,:240]
 data2 = Shallow_Tt_mean[:240,:240]
 data3 = Subsurface_reversed_Tt_mean[:240,:240]
@@ -133,8 +129,6 @@ data44 = np.where(data4==0, np.nan, data44)
 data45 = np.where(data5==0, np.nan, data45)
 data46 = np.where(data6==0, np.nan, data46)
 
-
-# 创建调色板
 colors = ['#1d4c8b', '#2352A0', '#2f69b1', '#3677a4', '#4283bd', '#579ac9', '#6cabe2', '#7db3d7', '#8fc4dc',
 '#a2cbe3', '#b5d4e6', '#c0dbec', '#cbe3f3', '#dbe9f1','#eef2f5',
           '#fefefe',
@@ -145,8 +139,6 @@ colors = ['#1d4c8b', '#2352A0', '#2f69b1', '#3677a4', '#4283bd', '#579ac9', '#6c
 cmap_custom = ListedColormap(colors)
 cmap_custom.set_bad(color='lightgrey')
 
-# 创建ScalarMappable对象
-
 norm_data2 = BoundaryNorm([-0.15, -0.14, -0.13, -0.12, -0.11, -0.10, -0.09, -0.08, -0.07, -0.06,
                      -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01,
                      0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12,
@@ -155,7 +147,6 @@ norm_data2 = BoundaryNorm([-0.15, -0.14, -0.13, -0.12, -0.11, -0.10, -0.09, -0.0
 sm_data2 = cm.ScalarMappable(cmap=cmap_custom, norm=norm_data2)
 sm_data2.set_array([])
 
-# 在每个子图上绘制数据
 axarr[0,0].imshow(data1, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 axarr[0,1].imshow(data2, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 axarr[0,2].imshow(data3, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
@@ -185,7 +176,6 @@ axarr[3,3].imshow(data44, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 axarr[3,4].imshow(data45, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 axarr[3,5].imshow(data46, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
-# 隐藏刻度
 axarr[0,0].set_xticks([])
 axarr[0,0].set_yticks([])
 axarr[0,1].set_xticks([])
@@ -239,19 +229,16 @@ axarr[3,5].set_xticks([])
 axarr[3,5].set_yticks([])
 
 
-# 添加整体colorbar
-plt.subplots_adjust(right=0.88)  # 调整整体colorbar的位置
-# cbar_ax = fig.add_axes([0.9, 0.15, 0.03, 0.7])  # 定义整体colorbar的位置和大小
-cbar_ax = fig.add_axes([0.84, 0.16, 0.013, 0.7])  # 定义整体colorbar的位置和大小
+plt.subplots_adjust(right=0.88)  
+# cbar_ax = fig.add_axes([0.9, 0.15, 0.03, 0.7])  
+cbar_ax = fig.add_axes([0.84, 0.16, 0.013, 0.7]) 
 cbar = fig.colorbar(sm_data2, cax=cbar_ax, shrink=0.85)
 cbar.set_ticks([-0.15, -0.05, 0.05, 0.15])
 cbar.set_ticklabels([-0.15, -0.05, 0.05, 0.15])
 cbar.set_label('℃/day', rotation=0, labelpad=-40, fontsize=8)
 cbar.ax.yaxis.set_label_coords(0.7, -0.03)
 
-
-
-plt.subplots_adjust(wspace=-0.5, hspace=0.2)  # 调整子图之间的水平和垂直间距
+plt.subplots_adjust(wspace=-0.5, hspace=0.2) 
 
 axarr[0,0].imshow(data1, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 # axarr[0,0].set_title('Tt', fontdict={'fontsize': 3})
@@ -302,7 +289,6 @@ axarr[1,5].imshow(data26, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 # axarr[1,5].set_title('Intensified_Reversed MHWs Sf',fontdict={'fontsize': 10})
 # axarr[1,5].text(0.04, 1.03, 'Intensified_Reversed MHWs Sf', transform=axarr[1,5].transAxes, fontsize=4, fontname='Times New Roman')
 
-
 axarr[2,0].imshow(data31, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 # axarr[2,0].set_title('Adv', fontdict={'fontsize': 10})
 # axarr[2,0].text(0.5, 1.03, 'Adv', transform=axarr[2,0].transAxes, fontsize=4, fontname='Times New Roman')
@@ -326,7 +312,6 @@ axarr[2,4].imshow(data35, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 axarr[2,5].imshow(data36, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 # axarr[2,5].set_title('Intensified_Reversed MHWs Adv',fontdict={'fontsize': 10})
 # axarr[2,5].text(0.04, 1.03, 'Intensified_Reversed MHWs Adv', transform=axarr[2,5].transAxes, fontsize=4, fontname='Times New Roman')
-
 
 axarr[3,0].imshow(data41, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 # axarr[3,0].set_title('Res', fontdict={'fontsize': 10})
@@ -354,7 +339,6 @@ axarr[3,5].imshow(data46, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
 # plt.suptitle('Intensified_Reversed MHWs Percentage', fontsize=10.5)
 
-
 from mpl_toolkits.basemap import Basemap
 lon, lat = np.meshgrid(np.linspace(105, 125, 240), np.linspace(25, 5, 240))
 
@@ -370,14 +354,12 @@ m5 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrn
             resolution='l', ax=axarr[0,4])
 m6 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrnrlat=25,
             resolution='l', ax=axarr[0,5])
-#
-# 绘制海岸线
+
 m1.drawcoastlines(linewidth=0.5)
 m1.drawcountries()
 m1.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=2)
 m1.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=2)
 
-# 使用经纬度坐标绘制数据
 x, y = m1(lon, lat)
 m1.pcolormesh(x,y,data1, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -387,7 +369,7 @@ m2.drawcountries()
 m2.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m2.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
+#
 x, y = m2(lon, lat)
 m2.pcolormesh(x,y,data2, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -397,7 +379,6 @@ m3.drawcountries()
 m3.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m3.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m3(lon, lat)
 m3.pcolormesh(x,y,data3, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -407,7 +388,6 @@ m4.drawcountries()
 m4.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m4.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m4(lon, lat)
 m4.pcolormesh(x,y,data4, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -417,7 +397,6 @@ m5.drawcountries()
 m5.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m5.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m5(lon, lat)
 m5.pcolormesh(x,y,data5, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -427,10 +406,8 @@ m6.drawcountries()
 m6.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m6.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m6(lon, lat)
 m6.pcolormesh(x,y,data6, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
-
 
 axarr[0,0].text(-0.1, 1.03, 'a1', transform=axarr[0,0].transAxes, fontsize=6, fontweight='bold', fontname='Times New Roman')
 axarr[0,0].text(0.1, 0.88, 'Tt', transform=axarr[0,0].transAxes, fontsize=8, fontweight='bold', fontname='Times New Roman')
@@ -451,8 +428,6 @@ axarr[0,5].text(-0.1, 1.03, 'f1', transform=axarr[0,5].transAxes, fontsize=6, fo
 axarr[0,5].text(0.1, 0.88, 'Tt', transform=axarr[0,5].transAxes, fontsize=8, fontweight='bold', fontname='Times New Roman')
 
 
-
-
 m21 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrnrlat=25,
             resolution='l', ax=axarr[1,0])
 m22 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrnrlat=25,
@@ -466,13 +441,11 @@ m25 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcr
 m26 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrnrlat=25,
             resolution='l', ax=axarr[1,5])
 
-# 绘制海岸线
 m21.drawcoastlines(linewidth=0.5)
 m21.drawcountries()
 m21.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m21.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m21(lon, lat)
 m21.pcolormesh(x,y,data21, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -482,7 +455,6 @@ m22.drawcountries()
 m22.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m22.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m22(lon, lat)
 m22.pcolormesh(x,y,data22, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -492,7 +464,6 @@ m23.drawcountries()
 m23.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m23.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m23(lon, lat)
 m23.pcolormesh(x,y,data23, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -502,7 +473,6 @@ m24.drawcountries()
 m24.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m24.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m24(lon, lat)
 m24.pcolormesh(x,y,data24, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -512,7 +482,6 @@ m25.drawcountries()
 m25.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m25.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m25(lon, lat)
 m25.pcolormesh(x,y,data25, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -522,7 +491,6 @@ m26.drawcountries()
 m26.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m26.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m26(lon, lat)
 m26.pcolormesh(x,y,data26, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -545,9 +513,6 @@ axarr[1,4].text(0.1, 0.88, 'Sf', transform=axarr[1,4].transAxes, fontsize=8, fon
 axarr[1,5].text(-0.1, 1.03, 'f2', transform=axarr[1,5].transAxes, fontsize=6, fontweight='bold', fontname='Times New Roman')
 axarr[1,5].text(0.1, 0.88, 'Sf', transform=axarr[1,5].transAxes, fontsize=8, fontweight='bold', fontname='Times New Roman')
 
-
-
-
 m31 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrnrlat=25,
             resolution='l', ax=axarr[2,0])
 m32 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrnrlat=25,
@@ -561,13 +526,11 @@ m35 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcr
 m36 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrnrlat=25,
             resolution='l', ax=axarr[2,5])
 
-# 绘制海岸线
 m31.drawcoastlines(linewidth=0.5)
 m31.drawcountries()
 m31.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m31.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m31(lon, lat)
 m31.pcolormesh(x,y,data31, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -577,37 +540,30 @@ m32.drawcountries()
 m32.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m32.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m32(lon, lat)
 m32.pcolormesh(x,y,data32, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
-
 
 m33.drawcoastlines(linewidth=0.5)
 m33.drawcountries()
 m33.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m33.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m33(lon, lat)
 m33.pcolormesh(x,y,data33, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
-
 
 m34.drawcoastlines(linewidth=0.5)
 m34.drawcountries()
 m34.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m34.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m34(lon, lat)
 m34.pcolormesh(x,y,data34, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
-
 
 m35.drawcoastlines(linewidth=0.5)
 m35.drawcountries()
 m35.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m35.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m35(lon, lat)
 m35.pcolormesh(x,y,data35, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -617,10 +573,8 @@ m36.drawcountries()
 m36.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m36.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m36(lon, lat)
 m36.pcolormesh(x,y,data36, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
-
 
 axarr[2,0].text(-0.1, 1.03, 'a3', transform=axarr[2,0].transAxes, fontsize=6, fontweight='bold', fontname='Times New Roman')
 axarr[2,0].text(0.1, 0.88, 'Adv', transform=axarr[2,0].transAxes, fontsize=8, fontweight='bold', fontname='Times New Roman')
@@ -640,7 +594,6 @@ axarr[2,4].text(0.1, 0.88, 'Adv', transform=axarr[2,4].transAxes, fontsize=8, fo
 axarr[2,5].text(-0.1, 1.03, 'f3', transform=axarr[2,5].transAxes, fontsize=6, fontweight='bold', fontname='Times New Roman')
 axarr[2,5].text(0.1, 0.88, 'Adv', transform=axarr[2,5].transAxes, fontsize=8, fontweight='bold', fontname='Times New Roman')
 
-
 m41 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrnrlat=25,
             resolution='l', ax=axarr[3,0])
 m42 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrnrlat=25,
@@ -654,53 +607,43 @@ m45 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcr
 m46 = Basemap(projection='merc', llcrnrlon=105, urcrnrlon=125, llcrnrlat=5, urcrnrlat=25,
             resolution='l', ax=axarr[3,5])
 
-# 绘制海岸线
 m41.drawcoastlines(linewidth=0.5)
 m41.drawcountries()
 m41.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m41.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m41(lon, lat)
 m41.pcolormesh(x,y,data41, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
-
 
 m42.drawcoastlines(linewidth=0.5)
 m42.drawcountries()
 m42.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m42.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m42(lon, lat)
 m42.pcolormesh(x,y,data42, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
-
 
 m43.drawcoastlines(linewidth=0.5)
 m43.drawcountries()
 m43.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m43.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m43(lon, lat)
 m43.pcolormesh(x,y,data43, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
-
 
 m44.drawcoastlines(linewidth=0.5)
 m44.drawcountries()
 m44.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m44.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m44(lon, lat)
 m44.pcolormesh(x,y,data44, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
-
 
 m45.drawcoastlines(linewidth=0.5)
 m45.drawcountries()
 m45.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m45.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m45(lon, lat)
 m45.pcolormesh(x,y,data45, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -710,7 +653,6 @@ m46.drawcountries()
 m46.drawparallels(np.arange(5, 25, 241), linewidth=0.5, color='k', fontsize=8)
 m46.drawmeridians(np.arange(105, 125, 241),  linewidth=0.5, color='k', fontsize=8)
 
-# 使用经纬度坐标绘制数据
 x, y = m46(lon, lat)
 m46.pcolormesh(x,y,data46, cmap=cmap_custom, norm=norm_data2, alpha=0.8)
 
@@ -736,4 +678,4 @@ axarr[3,5].text(0.1, 0.88, 'Res', transform=axarr[3,5].transAxes, fontsize=8, fo
 
 plt.show()
 
-plt.savefig(r'C:\\my_plot.png')
+plt.savefig('./my_plot.png')

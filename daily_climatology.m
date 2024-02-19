@@ -6,21 +6,21 @@ lon=ncread(filename,'lon');
 depth=ncread(filename,'depth');
 depth_ann=ncread(filename,'depth_ann');
 depth_semiann=ncread(filename,'depth_semiann');
-% 盐度的平均值
+% 
 mean=ncread(filename,'mean');
-% 年循环的余弦值
+% 
 an_cos=ncread(filename,'an_cos');
-% 年循环的正弦值
+% 
 an_sin=ncread(filename,'an_sin');
-% 半年循环的余弦值
+% 
 sa_cos=ncread(filename,'sa_cos');
-% 半年循环的正弦值
+% 半
 sa_sin=ncread(filename,'sa_sin');
-% 计算某天气候态盐度值
+% 
 % E=m+a1×cosα+a2×sinα+a3×cos2α+a4×sin2α,其中α＝2πd/366
-% E为所求的盐度气候态值,m为盐度的平均值,a1和a2分别为年循环的正弦值
-% 和余弦值,a3和a4分别为半年循环的正弦值和余弦值,d表示1年中的第几天
-% 选择范围105~125°E，5~25°N
+% 
+% 
+% 
 clim_lat=lat(161:201);
 clim_lon=lon(211:251);
 clim_mean=mean(211:251,161:201,:);
@@ -42,7 +42,7 @@ for i=1:41
     end
 end
 save D:\CARS_Argo\CARS\clim_temp.mat clim_lat clim_lon depth_semiann salt
-% 从10m开始到1000m，间隔10m进行插值
+% 
 % zz=10:10:1000;
 % zz=zz';
 % clim_salt=NaN(41,41,100,366);

@@ -1,6 +1,6 @@
 A dataset for analysis vertical structure of marine heatwaves in South China Sea
 
-https://doi.org/10.5061/dryad.m905qfv8b
+The original data contributions presented in this study are included in the article. Further inquires can be directed to the corresponding author.
 
 Description of the data and file structure
 
